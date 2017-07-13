@@ -8,15 +8,30 @@
 
 import Foundation
 import SwiftyJSON
+import Kitura
 
 public class AlexaController {
-
-
-    // Outputs proper response to Alexa with simple speech response
-    func say(speech: String) ->  [String : Any]? {
-        let fakeJSON = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"Say HELP if you want to listen options.\" } }, \"shouldEndSession\": \"false\" } }"
     
-        return utils.convertToDictionary(text: fakeJSON)
+    var response: RouterResponse?
+    
+    func setup(_ kituraResponse: RouterResponse) {
+        response = kituraResponse
+    }
+    
+    // Outputs proper response to Alexa with simple speech response
+    func say(speech: String, reprompt: String?) {
+        let second = ( (reprompt != nil) ? "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt!)\" } }," : "")
+        let formedjson = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
+        
+        response?.status(.OK).send(json: utils.convertToDictionary(text: formedjson)!)
+    }
+    
+    
+    func bye(speech: String) {
+        let formedjson = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \"shouldEndSession\": \"true\" } }"
+        
+        response?.status(.OK).send(json: utils.convertToDictionary(text: formedjson)!)
+    
     }
 
 }

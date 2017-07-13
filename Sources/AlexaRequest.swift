@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 
+
 public class AlexaRequest {
 
     var sessionId: String? = nil

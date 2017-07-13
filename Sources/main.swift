@@ -19,6 +19,7 @@ router.get("/") {
 // Handle HTTP POST requests to /
 router.post("/") {
     request, response, next in
+    alexa.setup(response)
 
     guard let parsedBody = request.body else {
         next()
@@ -30,18 +31,34 @@ router.post("/") {
         
         let alexaReq = AlexaRequest(jsonBody)
         
+        switch alexaReq.intent! {
+        case "login":
+                alexa.say(speech: "What is your summoner ID?", reprompt: "I didn't hear you")
+            
+            break;
+        case "logout":
+                alexa.bye(speech: "Good bye")
+            break;
+        case "region":
+            
+            break;
+        case "AMAZON.CancelIntent":
+            
+            break;
+        case "AMAZON.HelpIntent":
+                alexa.say(speech: "You can ask me to login", reprompt: "So?")
+            break;
+        case "AMAZON.StopIntent":
+            
+            break;
+        default:
+                alexa.say(speech: "I didn't understand", reprompt: nil)
+            break
         
-        let respondToUser = alexa.say(speech: alexaReq.intent!)
-        
-        print(respondToUser ?? "Invalid: \(utils.fakeJSON)")
-        
-        response.status(.OK).send(json: respondToUser!)
-        print(request)
-        
-        print(jsonBody)
+        }
         
     default:
-        print("Got a something we cannot handle")
+        alexa.say(speech: "I didn't understand", reprompt: nil)
         break
     }
     
