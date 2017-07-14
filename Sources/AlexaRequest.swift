@@ -19,9 +19,7 @@ public class AlexaRequest {
     let intent: String?
     let slots: String?
     
-    
     init(_ json: JSON) {
-        
         sessionId = json["session"]["sessionId"].rawString()
         userId = json["session"]["user"]["userId"].rawString()
         requestType = json["request"]["type"].rawString()
