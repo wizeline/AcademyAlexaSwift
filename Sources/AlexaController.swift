@@ -23,14 +23,14 @@ public class AlexaController {
         let second = ( (reprompt != nil) ? "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt!)\" } }," : "")
         let formedjson = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         
-        response?.status(.OK).send(json: utils.convertToDictionary(text: formedjson)!)
+        response?.status(.OK).send(json: utils.convertToDictionary(from: formedjson)!)
     }
     
     
     func bye(speech: String) {
         let formedjson = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \"shouldEndSession\": \"true\" } }"
         
-        response?.status(.OK).send(json: utils.convertToDictionary(text: formedjson)!)
+        response?.status(.OK).send(json: utils.convertToDictionary(from: formedjson)!)
     
     }
 

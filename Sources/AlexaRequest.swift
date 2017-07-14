@@ -12,23 +12,21 @@ import SwiftyJSON
 
 public class AlexaRequest {
 
-    var sessionId: String? = nil
-    var userId: String? = nil
-    var intent: String? = nil
-    var timestamp: String? = nil
-    var slots: String? = nil
-    var requestType: String? = nil
+    let sessionId: String?
+    let userId: String?
+    let requestType: String?
+    let timestamp: String?
+    let intent: String?
+    let slots: String?
     
     
     init(_ json: JSON) {
         
         sessionId = json["session"]["sessionId"].rawString()
         userId = json["session"]["user"]["userId"].rawString()
+        requestType = json["request"]["type"].rawString()
+        timestamp = json["request"]["timestamp"].rawString()
         intent = json["request"]["intent"]["name"].rawString()
-        
-        
-        print(json)
-    
+        slots = json["request"]["intent"]["slot"].rawString()
     }
-    
 }
