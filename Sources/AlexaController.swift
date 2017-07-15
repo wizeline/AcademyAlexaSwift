@@ -14,23 +14,30 @@ public class AlexaController {
     
     var response: RouterResponse?
     
-    func setup(_ kituraResponse: RouterResponse) {
-        response = kituraResponse
+    init(response: RouterResponse) {
+        self.response = response
     }
+    
+//    func setup(_ kituraResponse: RouterResponse) {
+//        response = kituraResponse
+//    }
     
     // Outputs proper response to Alexa with simple speech response
     func say(speech: String, reprompt: String?) {
-        let second = ( (reprompt != nil) ? "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt!)\" } }," : "")
+        guard let response = response else { return }
+        
+        let second = "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt ?? "")\" } },"
         let formedjson = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         
-        response?.status(.OK).send(json: utils.convertToDictionary(text: formedjson)!)
+        //TODO remove force unwrap
+        response.status(.OK).send(json: convertToDictionary(from: formedjson)!)
     }
-    
     
     func bye(speech: String) {
         let formedjson = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \"shouldEndSession\": \"true\" } }"
         
-        response?.status(.OK).send(json: utils.convertToDictionary(text: formedjson)!)
+        //TODO remove force unwrap
+        response?.status(.OK).send(json: convertToDictionary(from: formedjson)!)
     
     }
 
