@@ -15,7 +15,7 @@ final class AmazonHelpIntent: Intent {
     private func parseSlots() { }
     
     override func performRequest(completionHandler: @escaping (String, String) -> Void) {
-        completionHandler(Speech.successful.rawValue, Promt.so.rawValue)
+        completionHandler(Speech.successful.rawValue, Reprompt.so.rawValue)
     }
 }
 
@@ -24,7 +24,7 @@ extension AmazonHelpIntent {
         case successful = "You can ask me to login"
     }
     
-    enum RePromt: String {
+    enum Reprompt: String {
         case pardon = "I couldn't hear you clearly"
         case so = "So"
     }
