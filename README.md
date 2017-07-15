@@ -7,7 +7,7 @@ _./Sources/main.swift_
 **Description**: Demostration of the Amazon Echo. With this skill the user is capable to ask Alexa for the stadistics of the teams in his/her current game of League of Legends.
 
 ###### Prerequisites
-XCode 8.3.3
+- XCode 8.3.3
 Swift 3.1
 [Ngrok](https://ngrok.com/)
 [CouchDB](http://couchdb.apache.org/)
@@ -21,13 +21,13 @@ Click on _Add new skill_.
 Name: lol assistant
 Invokation name: `League assistant`
 **Interaction model**
-1. Click _Launch Skill Builder_
-2. Go to _Code editor_ tab.
-3. Drag and drop [InteractionModel.json](./InteractionModel.json).
-4. Apply changes.
-5. Save model.
-6. Build model.
-7. Configuration.
+- Click _Launch Skill Builder_
+- Go to _Code editor_ tab.
+- Drag and drop [InteractionModel.json](./InteractionModel.json).
+- Apply changes.
+- Save model.
+- Build model.
+- Configuration.
 **Configuration**
 Service Endpoint Type: HTTPS
 Geographical region: North America/Europe (Any)
