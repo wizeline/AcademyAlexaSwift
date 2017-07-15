@@ -16,7 +16,7 @@ final class LogoutIntent: Intent {
     private func parseSlots() { }
     
     override func performRequest(completionHandler: @escaping (String, String) -> Void) {
-        completionHandler(Speech.successful.rawValue, RePromt.pardon.rawValue)
+        completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
     }
 }
 
@@ -26,7 +26,7 @@ extension LogoutIntent {
         case fail = "I couldn't log you out"
     }
     
-    enum RePromt: String {
+    enum Reprompt: String {
         case pardon = "I couldn't hear you clearly"
     }
 }

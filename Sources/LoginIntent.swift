@@ -44,7 +44,7 @@ final class LoginIntent: Intent {
                 
                 if response.statusCode == 200 {
                     //TODO save user data into database
-                    completionHandler(Speech.successful.rawValue, RePromt.pardon.rawValue)
+                    completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
                 }
             }).resume()
         }
@@ -57,7 +57,7 @@ extension LoginIntent {
         case fail = "I couldn't loag you in"
     }
     
-    enum RePromt: String {
+    enum Reprompt: String {
         case pardon = "I couldn't hear you clearly"
     }
 }
