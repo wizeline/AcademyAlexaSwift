@@ -11,24 +11,10 @@ import SwiftyJSON
 
 
 public class AlexaRequest {
-
-    var sessionId: String? = nil
-    var userId: String? = nil
-    var intent: String? = nil
-    var timestamp: String? = nil
-    var slots: String? = nil
-    var requestType: String? = nil
-    
+    let intent: Intent?
     
     init(_ json: JSON) {
-        
-        sessionId = json["session"]["sessionId"].rawString()
-        userId = json["session"]["user"]["userId"].rawString()
-        intent = json["request"]["intent"]["name"].rawString()
-        
-        
-        print(json)
-    
+        let intentJSON = json["request", "intent"]
+        self.intent = Intent.registry(with: intentJSON)
     }
-    
 }
