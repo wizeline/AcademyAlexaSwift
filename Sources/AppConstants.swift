@@ -8,4 +8,15 @@
 
 import Foundation
 
-typealias Json = [String: Any]
+typealias EasyJSON = [String: Any]
+
+class API {
+    static let scheme = "https"
+    static let endpoint = "api.riotgames.com"
+    static let loginByIDBasePath = "/lol/summoner/v3/summoners/"
+    static let apiKey = "RGAPI-d6e14709-ca44-43f8-aade-235658bc1f11"
+}
+
+
+
+
