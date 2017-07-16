@@ -18,10 +18,6 @@ public class AlexaController {
         self.response = response
     }
     
-//    func setup(_ kituraResponse: RouterResponse) {
-//        response = kituraResponse
-//    }
-    
     // Outputs proper response to Alexa with simple speech response
     func say(speech: String, reprompt: String?) {
         guard let response = response else { return }
