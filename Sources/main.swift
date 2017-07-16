@@ -5,7 +5,7 @@ import HeliumLogger
 HeliumLogger.use()
 registry()
 
-let alexa = Alexa()
+let alexa = AlexaRouter()
 
 // Add an HTTP server and connect it to the router
 Kitura.addHTTPServer(onPort: 8080, with: alexa.router)

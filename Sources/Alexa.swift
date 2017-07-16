@@ -1,56 +1,29 @@
 //
-//  Alexa.swift
+//  AlexaHandler.swift
 //  SwiftEcho
 //
-//  Created by Hien Quang Tran on 16/7/17.
+//  Created by Oscar Mendoza Ochoa on 7/4/17.
 //
 //
 
 import Foundation
 import Kitura
-import LoggerAPI
 
-class Alexa {
-    let router = Router()
+struct Alexa {
+    var response: RouterResponse
     
-    init() {
-        router.all("/", middleware: BodyParser())
-        router.get("/", handler: handleServerTest)
-        router.post("/", handler: handleVoiceCommand)
+    init(response: RouterResponse) {
+        self.response = response
     }
-}
 
-extension Alexa {
-    
-    func handleServerTest(request: RouterRequest,
-                          response: RouterResponse,
-                           next: @escaping() -> Void)  throws {
-        Log.info("Alexa for the rescue")
-        response.status(.OK).send("Alexa is ready to rock&roll.")
-        next()
-    }
-    
-    func handleVoiceCommand(request: RouterRequest,
-                            response: RouterResponse,
-                            next: @escaping() -> Void) throws {
-        Log.info("Alexa has received you command")
-        guard let parsedBody = request.body else {
-            next()
-            return
-        }
+    func say(speech: String,
+             reprompt: String? = nil,
+             handler next: @escaping() -> Void) {
+        let second = "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt ?? "")\" } },"
+        let jsonRawString = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         
-        let alexaController = AlexaController(response: response)
-        
-        switch(parsedBody) {
-        case .json(let json):
-            let alexaReq = AlexaRequest(json)
-            alexaReq.intent?.performRequest(completionHandler: { speech, prompt in
-                alexaController.say(speech: speech, reprompt: prompt)
-            })
-        default:
-            alexaController.say(speech: "I didn't understand", reprompt: nil)
-        }
-        
+        let responseJSON = convertToDictionary(from: jsonRawString) ?? convertToDictionary(from: errorRawString)!
+        response.status(.OK).send(json: responseJSON)
         next()
     }
 }

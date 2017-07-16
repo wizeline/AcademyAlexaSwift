@@ -42,6 +42,7 @@ final class LoginIntent: Intent {
                 guard error == nil else { return }
                 guard let response = response as? HTTPURLResponse, let _ = data else { return }
                 
+                //TODO: Handle other cases
                 if response.statusCode == 200 {
                     //TODO save user data into database
                     completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
@@ -53,8 +54,8 @@ final class LoginIntent: Intent {
 
 extension LoginIntent {
     enum Speech: String {
-        case successful = "Log in sucessfully"
-        case fail = "I couldn't loag you in"
+        case successful = "Log in sucessfully. Good game well-played"
+        case fail = "I couldn't log you in"
     }
     
     enum Reprompt: String {

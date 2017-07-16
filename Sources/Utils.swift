@@ -13,8 +13,7 @@ public class Utils {
 
     let fakeJSON = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"Hello summoner. What do you want to do? \" }, \"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"Say HELP if you want to listen options.\" } }, \"shouldEndSession\": \"false\" } }"
 }
-
-///
+//TODO - Add description
 func convertToDictionary(from text: String) -> EasyJSON? {
     if let data = text.data(using: .utf8) {
         do {
@@ -26,14 +25,14 @@ func convertToDictionary(from text: String) -> EasyJSON? {
     return nil
 }
 
-///
+//TODO - Add description
 func registry() {
     Intent.registry["login"] = LoginIntent.self
     Intent.registry["logout"] = LogoutIntent.self
 }
 
 
-///
+//TODO - Add description
 func url(forScheme scheme: String, endpoint: String, basePath: String, region: String, id: String, apiKey: String) -> URL? {
     var baseURL = URLComponents()
     baseURL.scheme = scheme

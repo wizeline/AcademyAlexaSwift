@@ -9,8 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-
-public class AlexaRequest {
+public struct AlexaRequest {
     let intent: Intent?
     
     init(_ json: JSON) {
