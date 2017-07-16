@@ -17,6 +17,10 @@ class API {
     static let apiKey = "RGAPI-d6e14709-ca44-43f8-aade-235658bc1f11"
 }
 
-
-
-
+class DatabasePropierties {
+    static let host = "127.0.0.1"
+    static let port = Int16(5984)
+    static let name = "lolassistant"
+    static let admin = "admin"
+    static let password = "admin"
+}
