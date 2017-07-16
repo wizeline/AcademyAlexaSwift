@@ -9,7 +9,6 @@
 import Foundation
 import Kitura
 import LoggerAPI
-import Dispatch
 
 final class AlexaRouter {
     let router = Router()
