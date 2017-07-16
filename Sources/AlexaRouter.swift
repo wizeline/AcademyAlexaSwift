@@ -11,7 +11,7 @@ import Kitura
 import LoggerAPI
 import Dispatch
 
-class AlexaRouter {
+final class AlexaRouter {
     let router = Router()
     
     init() {
@@ -37,8 +37,9 @@ extension AlexaRouter {
                             next: @escaping() -> Void) throws {
         Log.info("Alexa has received you command")
         
+        let alexa = Alexa(response: response)
+        
         guard let json = request.json else {
-//            let responseJSON = AlexaController.say(speech: "I didn't understand", reprompt: nil)
             response.status(.badRequest)
             next()
             return
@@ -46,9 +47,7 @@ extension AlexaRouter {
         
         let alexaRequest = AlexaRequest(json)
         alexaRequest.intent?.performRequest(completionHandler: { speech, reprompt in
-            let responseJSON = AlexaController.say(speech: speech, reprompt: reprompt)
-            response.status(.OK).send(json: responseJSON)
-            next()
+            alexa.say(speech: speech, reprompt: reprompt, handler: next)
         })
     }
 }
