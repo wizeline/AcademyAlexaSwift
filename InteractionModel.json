@@ -1,0 +1,257 @@
+{
+  "intents": [
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "Default",
+      "samples": [],
+      "slots": []
+    },
+    {
+      "name": "login",
+      "samples": [
+        "log in",
+        "log me in",
+        "log in with region {region} and ID {id}",
+        "log me in with ID {id} to {region}"
+      ],
+      "slots": [
+        {
+          "name": "id",
+          "type": "AMAZON.NUMBER",
+          "samples": [
+            "{id}",
+            "My summoner ID is {id}",
+            "is {id}"
+          ]
+        },
+        {
+          "name": "region",
+          "type": "LIST_OF_REGIONS",
+          "samples": [
+            "{region}",
+            "my region is {region}",
+            "is {region}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "samples": [
+        "switch account",
+        "log out",
+        "change account",
+        "close session"
+      ],
+      "slots": []
+    },
+    {
+      "name": "statistics",
+      "samples": [
+        "statistics about {userTeam} team",
+        "how is {userTeam}"
+      ],
+      "slots": [
+        {
+          "name": "userTeam",
+          "type": "TEAM_TYPE",
+          "samples": []
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "LIST_OF_REGIONS",
+      "values": [
+        {
+          "id": null,
+          "name": {
+            "value": "North America",
+            "synonyms": [
+              "NA"
+            ]
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Europe West",
+            "synonyms": [
+              "EW"
+            ]
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Europe Nordic and East",
+            "synonyms": [
+              "ENE"
+            ]
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Europe East",
+            "synonyms": [
+              "EE"
+            ]
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Brazil",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Turkey",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Russia",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Latin America North",
+            "synonyms": [
+              "LAN"
+            ]
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Latin America South",
+            "synonyms": [
+              "LAS"
+            ]
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Oceania",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Japan",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "Korea",
+            "synonyms": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "TEAM_TYPE",
+      "values": [
+        {
+          "id": null,
+          "name": {
+            "value": "enemy",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "allied",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "all",
+            "synonyms": []
+          }
+        }
+      ]
+    }
+  ],
+  "prompts": [
+    {
+      "id": "Elicit.Intent-login.IntentSlot-id",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "What is your summoner ID?"
+        }
+      ]
+    },
+    {
+      "id": "Elicit.Intent-login.IntentSlot-region",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "What is your region?"
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "version": "1.0",
+    "intents": [
+      {
+        "name": "login",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": [
+          {
+            "name": "id",
+            "type": "AMAZON.NUMBER",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicit": "Elicit.Intent-login.IntentSlot-id"
+            }
+          },
+          {
+            "name": "region",
+            "type": "LIST_OF_REGIONS",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicit": "Elicit.Intent-login.IntentSlot-region"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
