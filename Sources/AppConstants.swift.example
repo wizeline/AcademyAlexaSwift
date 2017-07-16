@@ -17,6 +17,10 @@ class API {
     static let apiKey = ""
 }
 
-
-
-
+class DatabasePropierties {
+    static let host = "127.0.0.1"
+    static let port = Int16(5984)
+    static let name = "lolassistant"
+    static let admin = "admin"
+    static let password = "admin"
+}

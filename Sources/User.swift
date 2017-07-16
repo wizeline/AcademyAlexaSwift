@@ -9,20 +9,20 @@
 import Foundation
 import SwiftyJSON
 
-struct User {
-    let profileIconId: Int
+public struct User {
     let name: String
     let summonerLevel: Int
     let accountId: Int64
-    let id: Int64
     let revisionDate: Int64
+    let region: String
+    let alexaId: String
     
-    init(with json: JSON) {
-        profileIconId = json["profileIconId"].intValue
-        name = json["name"].stringValue
-        summonerLevel = json["name"].intValue
-        accountId = json["accountId"].int64Value
-        id = json["id"].int64Value
-        revisionDate = json["revisionDate"].int64Value
+    init(with json: JSON, alexaId alexa: String) {
+        alexaId =               alexa
+        name =                  json["name"].stringValue
+        summonerLevel =         json["summonerLevel"].intValue
+        accountId =             json["accountId"].int64Value
+        revisionDate =          json["revisionDate"].int64Value
+        region =                json["region"].stringValue
     }
 }
