@@ -17,8 +17,8 @@ import HeliumLogger
 public class UsersHandler {
     
     let connProperties = ConnectionProperties(
-        host: DatabasePropierties.host, // httpd address
-        port: DatabasePropierties.port, // httpd port
+        host: DatabasePropierties.host,         // httpd address
+        port: DatabasePropierties.port,         // httpd port
         secured: false,                         // https or http
         username: DatabasePropierties.admin,    // admin username
         password: DatabasePropierties.password  // admin password
@@ -49,7 +49,7 @@ public class UsersHandler {
         ]
         let json = JSON(userDict as AnyObject)
         
-        database.create(json, callback: { (id: String?, rev: String?, document: JSON?, error: NSError?) in
+        database.create(json, callback: { (id, rev, document, error) in
             if let error = error {
                 print("Error: \(error.code).")
                 completition(false)
@@ -65,12 +65,20 @@ public class UsersHandler {
     /// - Parameter alexaId:
     /// - Returns: nil if not found
     public func find(_ alexaId: String, completition: @escaping (_ result: User?) -> ()) {
-        database.retrieve(alexaId) { (document: JSON?, error: NSError?) in
+        database.retrieve(alexaId) { (document, error) in
             if error != nil {
-                print("Error: \(error!.code)")
+                if let errorCode = error?.code {
+                    print("Error \(errorCode).")
+                } else {
+                    print("Unknow error.")
+                }
                 completition(nil)
             } else {
-                completition(User(with: document!, alexaId: (document?["_id"].stringValue)!))
+                if let doc = document {
+                    completition(User(with: doc, alexaId: doc["_id"].stringValue))
+                } else {
+                    completition(nil)
+                }
             }
         }
     }
@@ -82,19 +90,28 @@ public class UsersHandler {
     /// - Parameters:
     ///   - alexaId: The Alexa Id of the user
     public func delete(_ alexaId: String, completition: @escaping (_ result: Bool) -> ()) {
-        database.retrieve(alexaId) { (document: JSON?, error: NSError?) in
+        database.retrieve(alexaId) { (document, error) in
             if error != nil {
-                print("Error: \(error!.code)")
+                if let errorCode = error?.code {
+                    print("Error \(errorCode).")
+                } else {
+                    print("Unknow error.")
+                }
                 completition(false)
             } else {
-                self.database.delete((document?["_id"].stringValue)!, rev: (document?["_rev"].stringValue)!, callback: { (error) in
-                    if error != nil {
-                        completition(true)
-                    } else {
-                        print("Error removing element from database.")
-                        completition(false)
-                    }
-                })
+                if let doc = document {
+                    self.database.delete(doc["_id"].stringValue, rev: doc["_rev"].stringValue, callback: { (error) in
+                        if error != nil {
+                            print("Error removing element from database.")
+                            completition(false)
+                        } else {
+                            completition(true)
+                        }
+                    })
+                } else {
+                    print("Error removing element from database.")
+                    completition(false)
+                }
             }
         }
     }
