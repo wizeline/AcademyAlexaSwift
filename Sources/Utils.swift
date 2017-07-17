@@ -12,6 +12,8 @@ import SwiftyJSON
 public class Utils {
 
     let fakeJSON = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"Hello summoner. What do you want to do? \" }, \"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"Say HELP if you want to listen options.\" } }, \"shouldEndSession\": \"false\" } }"
+    
+    let fakeUser = "{ \"name\": \"HienAFK\", \"summonerLevel\": \"30\", \"accountId\": \"231123\", \"revisionDate\": \"1231313\", \"region\": \"LAN\" }"
 }
 //TODO - Add description
 func convertToDictionary(from text: String) -> EasyJSON? {
