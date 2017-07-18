@@ -9,6 +9,9 @@
 import Foundation
 import Kitura
 import LoggerAPI
+import SwiftyJSON
+
+let usersHandler = UsersHandler()
 
 final class AlexaRouter {
     let router = Router()
@@ -45,8 +48,27 @@ extension AlexaRouter {
         }
         
         let alexaRequest = AlexaRequest(json)
-        alexaRequest.intent?.performRequest(completionHandler: { speech, reprompt in
-            alexa.say(speech: speech, reprompt: reprompt, handler: next)
-        })
+        
+        switch alexaRequest.requestType {
+        case .IntentRequest:
+            alexaRequest.intent?.performRequest(completionHandler: { speech, reprompt in
+                alexa.say(speech: speech, reprompt: reprompt, handler: next)
+            })
+                break;
+        case .LaunchRequest:
+            usersHandler.find(alexaRequest.alexaId, completition: { (user) in
+                if let summoner = user {
+                    alexa.say(speech: "Hello \(summoner.name), what do you want to do?", handler: next)
+                } else {
+                    alexa.say(speech: "Hello summoner, please log in to continue", reprompt: "I need your account ID and your region", handler: next)
+                }
+            })
+                break;
+        default:
+            alexa.exit(speech: "Bye", handler: next)
+            break;
+        }
+        
+        alexa.say(speech: "Welcome to League assistant. What can I do for you?", reprompt: "I didn't hear you.", handler: next)
     }
 }
