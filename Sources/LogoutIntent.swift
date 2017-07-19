@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 
+//TODO - Implement LoggerAPI
 final class LogoutIntent: Intent {
     
     var slot: (id: Slot, region: Slot) = (Slot(), Slot())

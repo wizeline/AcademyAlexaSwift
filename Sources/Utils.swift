@@ -31,8 +31,8 @@ func convertToDictionary(from text: String) -> EasyJSON? {
 func registry() {
     Intent.registry["login"] = LoginIntent.self
     Intent.registry["logout"] = LogoutIntent.self
+    Intent.registry["statistics"] = StatisticsIntent.self
 }
-
 
 //TODO - Add description
 func url(forScheme scheme: String, endpoint: String, basePath: String, region: String, id: String, apiKey: String) -> URL? {
@@ -41,4 +41,12 @@ func url(forScheme scheme: String, endpoint: String, basePath: String, region: S
     baseURL.host =  region + "." + endpoint
     baseURL.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
     return baseURL.url?.appendingPathComponent(basePath).appendingPathComponent(id, isDirectory: false)
+}
+
+func url(forScheme scheme: String, endpoint: String, basePath: String, region: String, id: String, apiKey: String, appendingPath path: String) -> URL? {
+    var baseURL = URLComponents()
+    baseURL.scheme = scheme
+    baseURL.host =  region + "." + endpoint
+    baseURL.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
+    return baseURL.url?.appendingPathComponent(basePath).appendingPathComponent(id).appendingPathComponent(path, isDirectory: false)
 }
