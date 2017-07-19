@@ -64,7 +64,7 @@
       ],
       "slots": [
         {
-          "name": "userTeam",
+          "name": "targetTeam",
           "type": "TEAM_TYPE",
           "samples": []
         }

@@ -34,8 +34,6 @@ extension AlexaRouter {
     func handleVoiceCommand(request: RouterRequest,
                             response: RouterResponse,
                             next: @escaping() -> Void) throws {
-        Log.info("Alexa has received you command")
-        
         let alexa = Alexa(response: response)
         
         guard let json = request.json else {

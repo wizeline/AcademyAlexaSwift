@@ -8,6 +8,9 @@
 
 import Foundation
 import SwiftyJSON
+import LoggerAPI
+
+//TODO - Implement LoggerAPI
 
 final class LoginIntent: Intent {
     
@@ -36,7 +39,6 @@ final class LoginIntent: Intent {
         
         //TODO remove hard code region
         if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: "euw1", id: id, apiKey: API.apiKey) {
-            
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 guard error == nil else { return }
