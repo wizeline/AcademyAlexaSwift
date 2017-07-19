@@ -35,7 +35,7 @@ extension AlexaRouter {
                             response: RouterResponse,
                             next: @escaping() -> Void) throws {
         let alexa = Alexa(response: response)
-        
+        print("ok")
         guard let json = request.json else {
             response.status(.badRequest)
             next()

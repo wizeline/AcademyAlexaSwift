@@ -20,6 +20,8 @@ class API {
     static let loginByIDBasePath   = "/lol/summoner/v3/summoners/"
     static let currentGameBasePath = "/lol/spectator/v3/active-games/by-summoner/"
     static let apiKey              = "RGAPI-10a6d300-f09e-4629-88c2-a3f008fc72f8"
+    static let recentMatchesBasePath = "/lol/match/v3/matchlists/by-account/"
+    static let recentMatchesAppendingPath = "/recent"
 }
 
 class DatabasePropierties {
