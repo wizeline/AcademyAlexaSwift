@@ -20,10 +20,13 @@
     {
       "name": "login",
       "samples": [
+        "log in with region {region} and ID {id}",
+        "log me in with ID {id} to {region}",
+        "log in with {id} and {region}",
         "log in",
         "log me in",
-        "log in with region {region} and ID {id}",
-        "log me in with ID {id} to {region}"
+        "log in with ID {id}",
+        "log in in {region}"
       ],
       "slots": [
         {
@@ -222,6 +225,17 @@
           "value": "What is your region?"
         }
       ]
+    },
+    {
+      "id": "Confirm.Intent-logout",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "This will log out your session, are you sure?"
+        }
+      ]
     }
   ],
   "dialog": {
@@ -251,6 +265,14 @@
             }
           }
         ]
+      },
+      {
+        "name": "logout",
+        "confirmationRequired": true,
+        "prompts": {
+          "confirm": "Confirm.Intent-logout"
+        },
+        "slots": []
       }
     ]
   }
