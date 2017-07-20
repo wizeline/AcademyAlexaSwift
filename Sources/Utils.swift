@@ -32,6 +32,7 @@ func registry() {
     Intent.registry["login"] = LoginIntent.self
     Intent.registry["logout"] = LogoutIntent.self
     Intent.registry["statistics"] = StatisticsIntent.self
+    Intent.registry["AMAZON.HelpIntent"] = AmazonHelpIntent.self
 }
 
 //TODO - Add description
