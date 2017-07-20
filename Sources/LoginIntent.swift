@@ -8,6 +8,11 @@
 
 import Foundation
 import SwiftyJSON
+import LoggerAPI
+
+//TODO - Implement LoggerAPI
+
+//let usersHandler = UsersHandler()
 
 final class LoginIntent: Intent {
     
@@ -29,37 +34,68 @@ final class LoginIntent: Intent {
         }
     }
     
-    override func performRequest(completionHandler: @escaping (String, String) -> Void) {
+    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String?, Bool) -> Void) {
         parseSlots()
+        //TODO manage missing values
         guard let _ = slot.id.name, let id = slot.id.value,
-            let _ = slot.region.name, let _ = slot.region.value else { return }
+        let _ = slot.region.name, let region = slot.region.value else {  completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false);  return }
+        
+        
+        let regionShortCode = regionCode(region)
+        if (regionShortCode == nil) {
+            completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false)
+            return
+        }
+
         
         //TODO remove hard code region
-        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: "euw1", id: id, apiKey: API.apiKey) {
-            
+        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: regionShortCode!, id: id, apiKey: API.apiKey) {
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 guard error == nil else { return }
-                guard let response = response as? HTTPURLResponse, let _ = data else { return }
+                guard let response = response as? HTTPURLResponse, let data = data else { return }
                 
                 //TODO: Handle other cases
                 if response.statusCode == 200 {
                     //TODO save user data into database
-                    completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
+                    print("Logged in")
+                    var foundUser = User(with: JSON(data: data), alexaId: alexa.alexaId)
+                    foundUser.setRegion(regionShortCode!)
+                    usersHandler.find(alexa.alexaId, completition: { (user) in
+                        if user != nil {
+                            usersHandler.delete(alexa.alexaId, completition: { (deleted) in
+                                if deleted == true {
+                                    usersHandler.save(foundUser, completition: { (saved) in
+                                        completionHandler(Speech.successful.rawValue + foundUser.name, Reprompt.pardon.rawValue, false)
+                                    })
+                                } else {
+                                    //TODO
+                                }
+                            })
+                        } else {
+                            usersHandler.save(foundUser, completition: { (saved) in
+                                completionHandler(Speech.successful.rawValue + foundUser.name, Reprompt.pardon.rawValue, false)
+                            })
+                        }
+                    })
+//                    completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
+                } else {
+                    completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false)
+                    print("Failed log in")
                 }
             }).resume()
         }
-    }
+    }// 85791 log in with ID eight five seven nine one in latin america north
 }
 
 extension LoginIntent {
     enum Speech: String {
-        case successful = "Log in sucessfully. Good game well-played"
-        case fail = "I couldn't log you in"
+        case successful = "Log in sucessfully. What can I do for you "
+        case fail = "Sorry, I couldn't find your account. Try again."
     }
     
     enum Reprompt: String {
-        case pardon = "I couldn't hear you clearly"
+        case pardon = "Please say your ID and region"
     }
 }
 

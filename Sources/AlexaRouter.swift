@@ -37,10 +37,8 @@ extension AlexaRouter {
     func handleVoiceCommand(request: RouterRequest,
                             response: RouterResponse,
                             next: @escaping() -> Void) throws {
-        Log.info("Alexa has received you command")
-        
         let alexa = Alexa(response: response)
-        
+
         guard let json = request.json else {
             response.status(.badRequest)
             next()
@@ -51,8 +49,12 @@ extension AlexaRouter {
         
         switch alexaRequest.requestType {
         case .IntentRequest:
-            alexaRequest.intent?.performRequest(completionHandler: { speech, reprompt in
-                alexa.say(speech: speech, reprompt: reprompt, handler: next)
+            alexaRequest.intent?.performRequest(alexaRequest, completionHandler: { speech, reprompt, shouldEnd in
+                if(shouldEnd == false) {
+                    alexa.say(speech: speech, reprompt: reprompt, handler: next)
+                } else {
+                    alexa.exit(speech: speech, handler: next)
+                }
             })
                 break;
         case .LaunchRequest:
@@ -65,10 +67,10 @@ extension AlexaRouter {
             })
                 break;
         default:
-            alexa.exit(speech: "Bye", handler: next)
+            alexa.exit(speech: "There was a internal problem", handler: next)
             break;
         }
         
-        alexa.say(speech: "Welcome to League assistant. What can I do for you?", reprompt: "I didn't hear you.", handler: next)
+//        alexa.say(speech: "Welcome to League assistant. What can I do for you?", reprompt: "I didn't hear you.", handler: next)
     }
 }

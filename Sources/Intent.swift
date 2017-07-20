@@ -27,5 +27,5 @@ class Intent {
         self.slots = json["slots"].dictionaryValue
     }
     
-    func performRequest(completionHandler: @escaping (_ speech: String, _ promt: String) -> Void) { }
+    func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (_ speech: String, _ promt: String?, _ shouldEnd: Bool) -> Void) { }
 }
