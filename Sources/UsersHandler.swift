@@ -46,7 +46,8 @@ public class UsersHandler {
             "accountId":        user.accountId as AnyObject,
             "revisionDate":     user.revisionDate as AnyObject,
             "region":           user.region as AnyObject,
-            "id":               user.summonerID as AnyObject
+            "id":               user.summonerID as AnyObject,
+            "platformID":       user.platformID as AnyObject
         ]
         let json = JSON(userDict as AnyObject)
         

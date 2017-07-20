@@ -38,7 +38,7 @@ extension AlexaRouter {
                             response: RouterResponse,
                             next: @escaping() -> Void) throws {
         let alexa = Alexa(response: response)
-        print("ok")
+
         guard let json = request.json else {
             response.status(.badRequest)
             next()
@@ -49,8 +49,12 @@ extension AlexaRouter {
         
         switch alexaRequest.requestType {
         case .IntentRequest:
-            alexaRequest.intent?.performRequest(alexaRequest, completionHandler: { speech, reprompt in
-                alexa.say(speech: speech, reprompt: reprompt, handler: next)
+            alexaRequest.intent?.performRequest(alexaRequest, completionHandler: { speech, reprompt, shouldEnd in
+                if(shouldEnd == false) {
+                    alexa.say(speech: speech, reprompt: reprompt, handler: next)
+                } else {
+                    alexa.exit(speech: speech, handler: next)
+                }
             })
                 break;
         case .LaunchRequest:
@@ -63,7 +67,7 @@ extension AlexaRouter {
             })
                 break;
         default:
-            alexa.exit(speech: "Bye", handler: next)
+            alexa.exit(speech: "There was a internal problem", handler: next)
             break;
         }
         

@@ -33,7 +33,7 @@ final class StatisticsIntent: Intent {
         }
     }
     
-    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String) -> Void) {
+    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String?, Bool) -> Void) {
         parseSlots()
         guard let _ = slot.name, let _ = slot.value else { return }
         
@@ -41,27 +41,35 @@ final class StatisticsIntent: Intent {
             if let user = responseData {
                 self.performRequestActiveGames(alexa, user, completionHandler: completionHandler)
             } else {
-                completionHandler("Please log in with your summoner Id and region.", "I didn't hear you.")
+                completionHandler("Please log in with your summoner Id and region.", "I didn't hear you.", false)
             }
         }
         
     }
 
 
-    func performRequestActiveGames(_ alexa: AlexaRequest, _ user: User, completionHandler: @escaping (String, String) -> Void) {
+    func performRequestActiveGames(_ alexa: AlexaRequest, _ user: User, completionHandler: @escaping (String, String?, Bool) -> Void) {
         //TODO remove hard code region and ID. retrieve the current user id instead
-        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "la2", id: "\(user.summonerID)", apiKey: API.apiKey) {
+        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: user.platformID, id: "\(user.summonerID)", apiKey: API.apiKey) {
             
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
-                guard error == nil else { return }
-                guard let response = response as? HTTPURLResponse, let data = data else { return }
+                guard error == nil else {
+                    print("Error: \(error.debugDescription)")
+                    completionHandler("There was an error calling the LoL api", nil, true)
+                    return
+                }
+                guard let response = response as? HTTPURLResponse, let data = data else {
+                    print("Error: \(error.debugDescription)")
+                    completionHandler("There was an error calling the LoL api", nil, true)
+                    return
+                }
                 
                 //TODO: Handle other cases
                 if response.statusCode == 200 {
                     let match = Match(data: data)
                     self.ids = match.enemy
-                    SessionManager.shared.requestPlayersStats(from: match.enemy, completion: { (result) in
+                    SessionManager.shared.requestPlayersStats(from: match.enemy, region: user.platformID, completion: { (result) in
                         var speech = ""
                         
                         for id in self.ids {
@@ -70,13 +78,13 @@ final class StatisticsIntent: Intent {
                             speech += "\(championName(whatChampion(match, id)) ?? defaultChampion) played in \(laneStats.lane.rawValue) \(laneStats.count) times in the last 20 matches. "
                         }
                         
-                        completionHandler(speech, Reprompt.pardon.rawValue)
+                        completionHandler(speech, nil, false)
                     })
-                } else if response.statusCode == 200 {
-                    completionHandler("Seems that there is not current game", Reprompt.pardon.rawValue)
+                } else if response.statusCode == 404 {
+                    completionHandler("Seems that there is not current game", nil, false)
                     print("Error: \(response.statusCode)")
                 } else {
-                    completionHandler("Seems that there is not current game", Reprompt.pardon.rawValue)
+                    completionHandler("Seems that there is not current game", nil, false)
                 }
             }).resume()
         }

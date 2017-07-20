@@ -16,15 +16,21 @@ final class LogoutIntent: Intent {
     
     private func parseSlots() { }
     
-    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String) -> Void) {
-        completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
+    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String, Bool) -> Void) {
+        usersHandler.delete(alexa.alexaId) { (result) in
+            if(result) {
+                completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue, true)
+            } else {
+                completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false)
+            }
+        }
     }
 }
 
 extension LogoutIntent {
     enum Speech: String {
-        case successful = "Goodbye"
-        case fail = "I couldn't log you out"
+        case successful = "Done, good bye."
+        case fail = "You haven't started a session yet."
     }
     
     enum Reprompt: String {

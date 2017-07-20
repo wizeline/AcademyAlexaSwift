@@ -20,13 +20,13 @@ struct Alexa {
              reprompt: String? = nil,
              handler next: @escaping() -> Void) {
         let second = "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt ?? "")\" } },"
+        //        let jsonRawString = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         let jsonRawString = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         
         let responseJSON = convertToDictionary(from: jsonRawString) ?? convertToDictionary(from: jsonRawString)!
         response.status(.OK).send(json: responseJSON)
         next()
     }
-    
     
     /// Return closing session, alexa will stop waiting for input
     ///
@@ -40,4 +40,5 @@ struct Alexa {
         response.status(.OK).send(json: responseJSON)
         next()
     }
+    
 }

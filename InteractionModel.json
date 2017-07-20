@@ -32,20 +32,12 @@
         {
           "name": "id",
           "type": "AMAZON.NUMBER",
-          "samples": [
-            "{id}",
-            "My summoner ID is {id}",
-            "is {id}"
-          ]
+          "samples": []
         },
         {
           "name": "region",
           "type": "LIST_OF_REGIONS",
-          "samples": [
-            "{region}",
-            "my region is {region}",
-            "is {region}"
-          ]
+          "samples": []
         }
       ]
     },
@@ -53,7 +45,6 @@
       "name": "logout",
       "samples": [
         "switch account",
-        "log out",
         "change account",
         "close session"
       ],
@@ -63,11 +54,13 @@
       "name": "statistics",
       "samples": [
         "statistics about {userTeam} team",
-        "how is {userTeam}"
+        "how is {userTeam}",
+        "statistics",
+        "give me statistics"
       ],
       "slots": [
         {
-          "name": "targetTeam",
+          "name": "userTeam",
           "type": "TEAM_TYPE",
           "samples": []
         }
@@ -79,7 +72,7 @@
       "name": "LIST_OF_REGIONS",
       "values": [
         {
-          "id": null,
+          "id": "na1",
           "name": {
             "value": "North America",
             "synonyms": [
@@ -88,7 +81,7 @@
           }
         },
         {
-          "id": null,
+          "id": "euw1",
           "name": {
             "value": "Europe West",
             "synonyms": [
@@ -97,7 +90,7 @@
           }
         },
         {
-          "id": null,
+          "id": "eun1",
           "name": {
             "value": "Europe Nordic and East",
             "synonyms": [
@@ -106,7 +99,7 @@
           }
         },
         {
-          "id": null,
+          "id": "eue1",
           "name": {
             "value": "Europe East",
             "synonyms": [
@@ -115,28 +108,28 @@
           }
         },
         {
-          "id": null,
+          "id": "br1",
           "name": {
             "value": "Brazil",
             "synonyms": []
           }
         },
         {
-          "id": null,
+          "id": "tr",
           "name": {
             "value": "Turkey",
             "synonyms": []
           }
         },
         {
-          "id": null,
+          "id": "ru",
           "name": {
             "value": "Russia",
             "synonyms": []
           }
         },
         {
-          "id": null,
+          "id": "la1",
           "name": {
             "value": "Latin America North",
             "synonyms": [
@@ -145,7 +138,7 @@
           }
         },
         {
-          "id": null,
+          "id": "la2",
           "name": {
             "value": "Latin America South",
             "synonyms": [
@@ -154,21 +147,21 @@
           }
         },
         {
-          "id": null,
+          "id": "oc1",
           "name": {
             "value": "Oceania",
             "synonyms": []
           }
         },
         {
-          "id": null,
+          "id": "jp1",
           "name": {
             "value": "Japan",
             "synonyms": []
           }
         },
         {
-          "id": null,
+          "id": "kr",
           "name": {
             "value": "Korea",
             "synonyms": []
@@ -202,78 +195,5 @@
         }
       ]
     }
-  ],
-  "prompts": [
-    {
-      "id": "Elicit.Intent-login.IntentSlot-id",
-      "promptVersion": "1.0",
-      "definitionVersion": "1.0",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "What is your summoner ID?"
-        }
-      ]
-    },
-    {
-      "id": "Elicit.Intent-login.IntentSlot-region",
-      "promptVersion": "1.0",
-      "definitionVersion": "1.0",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "What is your region?"
-        }
-      ]
-    },
-    {
-      "id": "Confirm.Intent-logout",
-      "promptVersion": "1.0",
-      "definitionVersion": "1.0",
-      "variations": [
-        {
-          "type": "PlainText",
-          "value": "This will log out your session, are you sure?"
-        }
-      ]
-    }
-  ],
-  "dialog": {
-    "version": "1.0",
-    "intents": [
-      {
-        "name": "login",
-        "confirmationRequired": false,
-        "prompts": {},
-        "slots": [
-          {
-            "name": "id",
-            "type": "AMAZON.NUMBER",
-            "elicitationRequired": true,
-            "confirmationRequired": false,
-            "prompts": {
-              "elicit": "Elicit.Intent-login.IntentSlot-id"
-            }
-          },
-          {
-            "name": "region",
-            "type": "LIST_OF_REGIONS",
-            "elicitationRequired": true,
-            "confirmationRequired": false,
-            "prompts": {
-              "elicit": "Elicit.Intent-login.IntentSlot-region"
-            }
-          }
-        ]
-      },
-      {
-        "name": "logout",
-        "confirmationRequired": true,
-        "prompts": {
-          "confirm": "Confirm.Intent-logout"
-        },
-        "slots": []
-      }
-    ]
-  }
+  ]
 }
