@@ -76,17 +76,17 @@ final class LoginIntent: Intent {
                 }
             }).resume()
         }
-    }// 1190971 log in with ID one one nine zero nine seven one in latin america
+    }// 85791 log in with ID eight five seven nine one in latin america north
 }
 
 extension LoginIntent {
     enum Speech: String {
         case successful = "Log in sucessfully. Good game "
-        case fail = "I couldn't log you in"
+        case fail = "Sorry, I couldn't find your account."
     }
     
     enum Reprompt: String {
-        case pardon = "I couldn't hear you clearly"
+        case pardon = "What do you want to do?"
     }
 }
 

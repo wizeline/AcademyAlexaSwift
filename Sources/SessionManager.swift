@@ -26,7 +26,7 @@ final class SessionManager {
     
     func requestPlayersStats(from summonerIdList: [Int], completion: @escaping(_ userStats: [Int: LaneStats]) -> Void) {
         for id in summonerIdList {
-            if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: "euw1", id: "\(id)", apiKey: API.apiKey) {
+            if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: "la2", id: "\(id)", apiKey: API.apiKey) {
                 let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
                 let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, response, error in
                     guard error == nil else { return }
@@ -46,7 +46,7 @@ final class SessionManager {
     }
     
     func requestRecentMatches(user: User, completion: @escaping(_ userStats: [Int: LaneStats]) -> Void) {
-        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.recentMatchesBasePath, region: "euw1", id: "\(user.accountId)", apiKey: API.apiKey, appendingPath: API.recentMatchesAppendingPath) {
+        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.recentMatchesBasePath, region: "la2", id: "\(user.accountId)", apiKey: API.apiKey, appendingPath: API.recentMatchesAppendingPath) {
             
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             let task = URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, response, error in
@@ -60,6 +60,7 @@ final class SessionManager {
                 if response.statusCode == 200 {
                     let recentMatches = RecentResult(data: data)
                     let mostPlayedLane = recentMatches.mostPlayedLane()
+//                    let champion = championName(recentMatches.champion)
                     
                     self.queue.sync {
                         self.userStats[user.summonerID] = mostPlayedLane
@@ -80,7 +81,7 @@ extension SessionManager {
     //This function is just for testing.
     func testWhoIsPlaying(from summonerIdList: [Int]) {
         for id in summonerIdList {
-            if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "la1", id: "\(id)", apiKey: API.apiKey) {
+            if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "la2", id: "\(id)", apiKey: API.apiKey) {
                 let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
                 URLSession.shared.dataTask(with: request, completionHandler: { [weak self] data, response, error in
                     guard error == nil else { return }

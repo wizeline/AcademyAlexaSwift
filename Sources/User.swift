@@ -35,7 +35,7 @@ public struct User: Hashable {
         summonerLevel = json["summonerLevel"].intValue
         accountId     = json["accountId"].int64Value
         revisionDate  = json["revisionDate"].int64Value
-        region        = json["region"].stringValue
+        region        = json["platformId"].stringValue
     }
 }
 

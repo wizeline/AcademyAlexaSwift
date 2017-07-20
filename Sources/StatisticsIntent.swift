@@ -10,6 +10,8 @@ import Foundation
 import LoggerAPI
 import SwiftyJSON
 
+
+
 //TODO - Implement LoggerAPIf
 final class StatisticsIntent: Intent {
     
@@ -35,8 +37,20 @@ final class StatisticsIntent: Intent {
         parseSlots()
         guard let _ = slot.name, let _ = slot.value else { return }
         
+        usersHandler.find(alexa.alexaId) { (responseData) in
+            if let user = responseData {
+                self.performRequestActiveGames(alexa, user, completionHandler: completionHandler)
+            } else {
+                completionHandler("Please log in with your summoner Id and region.", "I didn't hear you.")
+            }
+        }
+        
+    }
+
+
+    func performRequestActiveGames(_ alexa: AlexaRequest, _ user: User, completionHandler: @escaping (String, String) -> Void) {
         //TODO remove hard code region and ID. retrieve the current user id instead
-        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "euw1", id: "42168003", apiKey: API.apiKey) {
+        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "la2", id: "\(user.summonerID)", apiKey: API.apiKey) {
             
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -52,14 +66,17 @@ final class StatisticsIntent: Intent {
                         
                         for id in self.ids {
                             let laneStats = result[id]!
-                            speech += "Player \(id) played in \(laneStats.lane.rawValue) \(laneStats.count) times in the last 20 matches. "
+                            let defaultChampion = "Player "
+                            speech += "\(championName(whatChampion(match, id)) ?? defaultChampion) played in \(laneStats.lane.rawValue) \(laneStats.count) times in the last 20 matches. "
                         }
                         
                         completionHandler(speech, Reprompt.pardon.rawValue)
                     })
-                } else {
+                } else if response.statusCode == 200 {
                     completionHandler("Seems that there is not current game", Reprompt.pardon.rawValue)
                     print("Error: \(response.statusCode)")
+                } else {
+                    completionHandler("Seems that there is not current game", Reprompt.pardon.rawValue)
                 }
             }).resume()
         }
