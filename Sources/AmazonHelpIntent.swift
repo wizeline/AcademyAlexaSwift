@@ -14,7 +14,7 @@ final class AmazonHelpIntent: Intent {
     
     private func parseSlots() { }
     
-    override func performRequest(completionHandler: @escaping (String, String) -> Void) {
+    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String) -> Void) {
         completionHandler(Speech.successful.rawValue, Reprompt.so.rawValue)
     }
 }

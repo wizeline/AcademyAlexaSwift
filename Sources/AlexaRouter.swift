@@ -49,7 +49,7 @@ extension AlexaRouter {
         
         switch alexaRequest.requestType {
         case .IntentRequest:
-            alexaRequest.intent?.performRequest(completionHandler: { speech, reprompt in
+            alexaRequest.intent?.performRequest(alexaRequest, completionHandler: { speech, reprompt in
                 alexa.say(speech: speech, reprompt: reprompt, handler: next)
             })
                 break;
@@ -67,6 +67,6 @@ extension AlexaRouter {
             break;
         }
         
-        alexa.say(speech: "Welcome to League assistant. What can I do for you?", reprompt: "I didn't hear you.", handler: next)
+//        alexa.say(speech: "Welcome to League assistant. What can I do for you?", reprompt: "I didn't hear you.", handler: next)
     }
 }

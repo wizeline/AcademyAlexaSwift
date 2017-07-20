@@ -19,7 +19,7 @@ class API {
     static let endpoint            = "api.riotgames.com"
     static let loginByIDBasePath   = "/lol/summoner/v3/summoners/"
     static let currentGameBasePath = "/lol/spectator/v3/active-games/by-summoner/"
-    static let apiKey              = "RGAPI-10a6d300-f09e-4629-88c2-a3f008fc72f8"
+    static let apiKey              = "RGAPI-ec832fc6-b496-4a5f-a029-7487d3cdcbbb"
     static let recentMatchesBasePath = "/lol/match/v3/matchlists/by-account/"
     static let recentMatchesAppendingPath = "/recent"
 }

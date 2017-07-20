@@ -31,12 +31,12 @@ final class StatisticsIntent: Intent {
         }
     }
     
-    override func performRequest(completionHandler: @escaping (String, String) -> Void) {
+    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String) -> Void) {
         parseSlots()
         guard let _ = slot.name, let _ = slot.value else { return }
         
         //TODO remove hard code region and ID. retrieve the current user id instead
-        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "euw1", id: "85739318", apiKey: API.apiKey) {
+        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: "euw1", id: "42168003", apiKey: API.apiKey) {
             
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -57,6 +57,9 @@ final class StatisticsIntent: Intent {
                         
                         completionHandler(speech, Reprompt.pardon.rawValue)
                     })
+                } else {
+                    completionHandler("Seems that there is not current game", Reprompt.pardon.rawValue)
+                    print("Error: \(response.statusCode)")
                 }
             }).resume()
         }
