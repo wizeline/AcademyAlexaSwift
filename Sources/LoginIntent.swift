@@ -34,14 +34,22 @@ final class LoginIntent: Intent {
         }
     }
     
-    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String) -> Void) {
+    override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String?, Bool) -> Void) {
         parseSlots()
         //TODO manage missing values
         guard let _ = slot.id.name, let id = slot.id.value,
-            let _ = slot.region.name, let _ = slot.region.value else { return }
+        let _ = slot.region.name, let region = slot.region.value else {  completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false);  return }
+        
+        
+        let regionShortCode = regionCode(region)
+        if (regionShortCode == nil) {
+            completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false)
+            return
+        }
+
         
         //TODO remove hard code region
-        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: "la2", id: id, apiKey: API.apiKey) {
+        if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: regionShortCode!, id: id, apiKey: API.apiKey) {
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 guard error == nil else { return }
@@ -51,13 +59,14 @@ final class LoginIntent: Intent {
                 if response.statusCode == 200 {
                     //TODO save user data into database
                     print("Logged in")
-                    let foundUser = User(with: JSON(data: data), alexaId: alexa.alexaId)
+                    var foundUser = User(with: JSON(data: data), alexaId: alexa.alexaId)
+                    foundUser.setRegion(regionShortCode!)
                     usersHandler.find(alexa.alexaId, completition: { (user) in
                         if user != nil {
                             usersHandler.delete(alexa.alexaId, completition: { (deleted) in
                                 if deleted == true {
                                     usersHandler.save(foundUser, completition: { (saved) in
-                                        completionHandler(Speech.successful.rawValue + foundUser.name, Reprompt.pardon.rawValue)
+                                        completionHandler(Speech.successful.rawValue + foundUser.name, Reprompt.pardon.rawValue, false)
                                     })
                                 } else {
                                     //TODO
@@ -65,13 +74,13 @@ final class LoginIntent: Intent {
                             })
                         } else {
                             usersHandler.save(foundUser, completition: { (saved) in
-                                completionHandler(Speech.successful.rawValue + foundUser.name, Reprompt.pardon.rawValue)
+                                completionHandler(Speech.successful.rawValue + foundUser.name, Reprompt.pardon.rawValue, false)
                             })
                         }
                     })
 //                    completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
                 } else {
-                    completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue)
+                    completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false)
                     print("Failed log in")
                 }
             }).resume()
@@ -81,12 +90,12 @@ final class LoginIntent: Intent {
 
 extension LoginIntent {
     enum Speech: String {
-        case successful = "Log in sucessfully. Good game "
-        case fail = "Sorry, I couldn't find your account."
+        case successful = "Log in sucessfully. What can I do for you "
+        case fail = "Sorry, I couldn't find your account. Try again."
     }
     
     enum Reprompt: String {
-        case pardon = "What do you want to do?"
+        case pardon = "Please say your ID and region"
     }
 }
 

@@ -32,17 +32,3 @@ class DatabasePropierties {
     static let password = "admin"
 }
 
-public enum Region: String {
-    case northAmerica           = "na1"
-    case europeWest             = "euw1"
-    case europeNordicAndEast    = "eun1"
-    case europeEast             = "eue1"
-    case brazil                 = "br1"
-    case turkey                 = "tr"
-    case russia                 = "ru"
-    case latinAmericaNorth      = "la1"
-    case latinAmericaSouth      = "la2"
-    case oceania                = "oc1"
-    case japan                  = "jp1"
-    case korea                  = "kr"
-}

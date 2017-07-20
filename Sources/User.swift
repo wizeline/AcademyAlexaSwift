@@ -16,8 +16,9 @@ public struct User: Hashable {
     let summonerLevel: Int
     let accountId: Int64
     let revisionDate: Int64
-    let region: String
+    var region: String
     let alexaId: String
+    var platformID: String
     
     public var hashValue: Int {
         return Int(self.accountId)
@@ -29,13 +30,20 @@ public struct User: Hashable {
     }
     
     init(with json: JSON, alexaId alexa: String) {
+        print(json)
         alexaId       = alexa
         summonerID    = json["id"].intValue
         name          = json["name"].stringValue
         summonerLevel = json["summonerLevel"].intValue
         accountId     = json["accountId"].int64Value
         revisionDate  = json["revisionDate"].int64Value
-        region        = json["platformId"].stringValue
+        region        = json["region"].stringValue
+        platformID    = json["platformID"].stringValue
+    }
+    
+    mutating func setRegion(_ code: String) {
+        region = code
+        platformID = code
     }
 }
 
