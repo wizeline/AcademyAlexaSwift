@@ -69,12 +69,12 @@ final class StatisticsIntent: Intent {
                     let match = Match(data: data)
                     self.ids = match.enemy
                     SessionManager.shared.requestPlayersStats(from: match.enemy, region: user.platformID, completion: { (result) in
-                        var speech = ""
+                        var speech = "In the last 20 matches, "
                         
                         for id in self.ids {
                             let laneStats = result[id]!
                             let defaultChampion = "Player "
-                            speech += "\(championName(whatChampion(match, id)) ?? defaultChampion) played in \(laneStats.lane.rawValue) \(laneStats.count) times in the last 20 matches. "
+                            speech += "\(championName(whatChampion(match, id)) ?? defaultChampion) played in \(laneStats.lane.rawValue) \(laneStats.count) times. "
                         }
                         
                         completionHandler(speech, nil, false)
