@@ -18,8 +18,6 @@ struct Participant {
     let summonerName: String?
     let isBot: Bool?
     let summonerId: Int?
-//    let runes: [Rune]
-//    let masteries: [Masteries]
     
     init(json: JSON) {
         self.teamId = json["teamId"].int
