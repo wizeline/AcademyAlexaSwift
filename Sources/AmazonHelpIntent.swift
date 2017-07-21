@@ -21,7 +21,7 @@ final class AmazonHelpIntent: Intent {
 
 extension AmazonHelpIntent {
     enum Speech: String {
-        case successful = "You can ask me to login with your ID and region"
+        case successful = "Ok"
     }
     
     enum Reprompt: String {

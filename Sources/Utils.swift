@@ -36,15 +36,16 @@ func convertToDictionary(from text: String) -> EasyJSON? {
     return nil
 }
 
-//TODO - Add description
+/// Maps intents with their respective classes
 func registry() {
     Intent.registry["login"] = LoginIntent.self
     Intent.registry["logout"] = LogoutIntent.self
     Intent.registry["statistics"] = StatisticsIntent.self
     Intent.registry["AMAZON.HelpIntent"] = AmazonHelpIntent.self
+    Intent.registry["AMAZON.CancelIntent"] = AmazonHelpIntent.self
+    Intent.registry["AMAZON.StopIntent"] = AmazonHelpIntent.self
 }
 
-//TODO - Add description
 func url(forScheme scheme: String, endpoint: String, basePath: String, region: String, id: String, apiKey: String) -> URL? {
     var baseURL = URLComponents()
     baseURL.scheme = scheme
@@ -61,6 +62,13 @@ func url(forScheme scheme: String, endpoint: String, basePath: String, region: S
     return baseURL.url?.appendingPathComponent(basePath).appendingPathComponent(id).appendingPathComponent(path, isDirectory: false)
 }
 
+/// Explores the match object to retrive the champion id each player is playing
+/// This function is horribly implemented.. need to redo
+///
+/// - Parameters:
+///   - match: current match
+///   - summonerId: id of the played we want to know his champion
+/// - Returns: the championid
 func whatChampion(_ match: Match, _ summonerId: Int) -> String {
     for champion in match.participants {
         if champion.summonerId == summonerId {
@@ -72,6 +80,10 @@ func whatChampion(_ match: Match, _ summonerId: Int) -> String {
     return ""
 }
 
+/// Retrive region code for LoL API
+///
+/// - Parameter region: slot from Alexa request
+/// - Returns: code for LoL API
 func regionCode(_ region: String) -> String? {
     switch region.lowercased() {
         case "north america":           return "na1"
