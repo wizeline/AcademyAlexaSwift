@@ -63,7 +63,6 @@ final class SessionManager {
                 if response.statusCode == 200 {
                     let recentMatches = RecentResult(data: data)
                     let mostPlayedLane = recentMatches.mostPlayedLane()
-//                    let champion = championName(recentMatches.champion)
                     
                     self.queue.sync {
                         self.userStats[user.summonerID] = mostPlayedLane
@@ -94,9 +93,7 @@ extension SessionManager {
                     //TODO: Handle other cases
                     if response.statusCode == 200 {
                         self.queue.sync {
-//                            self.tests.append("x")
-//                            print(self.tests)
-//                            print(id)
+
                         }
                     } else {
                         print("404")

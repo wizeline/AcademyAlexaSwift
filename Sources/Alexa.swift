@@ -15,12 +15,16 @@ struct Alexa {
     init(response: RouterResponse) {
         self.response = response
     }
-
+    
+    /// Return closing session, alexa will stop waiting for input
+    ///
+    /// - Parameters:
+    ///   - speech: message to output
+    ///   - reprompt?:
     func say(speech: String,
              reprompt: String? = nil,
              handler next: @escaping() -> Void) {
         let second = "\"reprompt\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(reprompt ?? "")\" } },"
-        //        let jsonRawString = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         let jsonRawString = "{ \"version\": \"string\", \"sessionAttributes\": { \"string\": \"\" }, \"response\": { \"outputSpeech\": { \"type\": \"PlainText\", \"text\": \"\(speech)\" }, \(second) \"shouldEndSession\": \"false\" } }"
         
         let responseJSON = convertToDictionary(from: jsonRawString) ?? convertToDictionary(from: jsonRawString)!

@@ -12,8 +12,6 @@ import LoggerAPI
 
 //TODO - Implement LoggerAPI
 
-//let usersHandler = UsersHandler()
-
 final class LoginIntent: Intent {
     
     var slot: (id: Slot, region: Slot) = (Slot(), Slot())
@@ -36,7 +34,6 @@ final class LoginIntent: Intent {
     
     override func performRequest(_ alexa: AlexaRequest, completionHandler: @escaping (String, String?, Bool) -> Void) {
         parseSlots()
-        //TODO manage missing values
         guard let _ = slot.id.name, let id = slot.id.value,
         let _ = slot.region.name, let region = slot.region.value else {  completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false);  return }
         
@@ -48,7 +45,6 @@ final class LoginIntent: Intent {
         }
 
         
-        //TODO remove hard code region
         if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.loginByIDBasePath, region: regionShortCode!, id: id, apiKey: API.apiKey) {
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)
             URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
@@ -57,10 +53,10 @@ final class LoginIntent: Intent {
                 
                 //TODO: Handle other cases
                 if response.statusCode == 200 {
-                    //TODO save user data into database
-                    print("Logged in")
                     var foundUser = User(with: JSON(data: data), alexaId: alexa.alexaId)
                     foundUser.setRegion(regionShortCode!)
+                    
+                    // In order to add a new user into the database, we need to check if it already exists and remove it
                     usersHandler.find(alexa.alexaId, completition: { (user) in
                         if user != nil {
                             usersHandler.delete(alexa.alexaId, completition: { (deleted) in
@@ -78,14 +74,14 @@ final class LoginIntent: Intent {
                             })
                         }
                     })
-//                    completionHandler(Speech.successful.rawValue, Reprompt.pardon.rawValue)
+
                 } else {
+                    // Failed log in
                     completionHandler(Speech.fail.rawValue, Reprompt.pardon.rawValue, false)
-                    print("Failed log in")
                 }
             }).resume()
         }
-    }// 85791 log in with ID eight five seven nine one in latin america north
+    }
 }
 
 extension LoginIntent {
