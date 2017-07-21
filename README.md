@@ -4,9 +4,10 @@
 ### Project Overview
 _./Sources/main.swift_
 
-**Description**: Demostration of the Amazon Echo. With this skill the user is capable to ask Alexa for the stadistics of the enemy team, and know what they should care about.
+**Description**: This project provides a demonstration of how to develop for the Amazon Echo. With this skill the user is capable to ask Alexa for the statistics of the enemy team in League of Legends the video game, and know what they should care about.
 
 ##### Prerequisites
+- Apple computer
 - XCode 8.3.3
 - Swift 3.1
 - [Ngrok](https://ngrok.com/)
@@ -16,21 +17,21 @@ _./Sources/main.swift_
 
 ##### Alexa configuration
 Go to the [Alexa Developer Console](https://developer.amazon.com/edw/home.html#/) and select _Alexa Skill Kit_.
-Click on _Add new skill_.
+Click _Add new skill_.
 
-The next steps are the information necesary on each Alexa tab. If you notice there is information _missing_ just leave that fields blank or their default values.
+The next steps show you what information is necessary on each Alexa tab. If you notice there is information _missing_ just leave the field blank or their default values.
 
-**Skill information**
+**Skill Information**
 Name: lol assistant
 Invokation name: `League assistant`
 
-**Interaction model**
+**Interaction Model**
 - Click _Launch Skill Builder_
 - Go to _Code editor_ tab.
 - Drag and drop [InteractionModel.json](./InteractionModel.json).
 - Apply changes.
 - Save and build model.
-- Go back to the skill configuation by clicking _Configuration_.
+- Go back to the skill configuation by clicking _Configuration_
 
 **Configuration**
 - Service Endpoint Type: `HTTPS`
@@ -40,7 +41,7 @@ Invokation name: `League assistant`
 ##### Getting local endpoint
 In your terminal run
 `ngrok http 8081`
-You will get a https endpoint, that is the hook for your skill.
+You will get a https endpoint, which is the hook for your skill.
 
 ###### CouchDB configuration
 Before running the project, is recommended to have CouchDB running.
@@ -60,12 +61,12 @@ By default, it runs on port _5984_.
 - Add the name of the database in the _name_ field, also input your _admin_ and _password_ database in their respective fields.
 
 ##### Building and running the project
-You can install dependences and build project with
+Install dependences and build project with
 `swift build`
 
-If success, you can run the project with
+If successful, run the project with
 `./.build/debug/SwiftEcho`
-Your server will be running into the port 8081.
+Your server will run into the port 8081.
 
 Also, you can generate the xcode project using.
 `swift package generate-xcodeproj`
