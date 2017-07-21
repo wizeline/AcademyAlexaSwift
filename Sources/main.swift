@@ -1,17 +1,16 @@
 import Kitura
+import SwiftyJSON
+import HeliumLogger
 
-// Create a new router
-let router = Router()
+HeliumLogger.use()
+registry()
 
-// Handle HTTP GET requests to /
-router.get("/") {
-    request, response, next in
-    response.send("Kitura is ready to rock&roll.")
-    next()
-}
+let alexa = AlexaRouter()
 
 // Add an HTTP server and connect it to the router
-Kitura.addHTTPServer(onPort: 8080, with: router)
+Kitura.addHTTPServer(onPort: 8081, with: alexa.router)
 
 // Start the Kitura runloop (this call never returns)
 Kitura.run()
+
+

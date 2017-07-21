@@ -1,0 +1,199 @@
+{
+  "intents": [
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "Default",
+      "samples": [],
+      "slots": []
+    },
+    {
+      "name": "login",
+      "samples": [
+        "log in with region {region} and ID {id}",
+        "log me in with ID {id} to {region}",
+        "log in with {id} and {region}",
+        "log in",
+        "log me in",
+        "log in with ID {id}",
+        "log in in {region}"
+      ],
+      "slots": [
+        {
+          "name": "id",
+          "type": "AMAZON.NUMBER",
+          "samples": []
+        },
+        {
+          "name": "region",
+          "type": "LIST_OF_REGIONS",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "samples": [
+        "switch account",
+        "change account",
+        "close session"
+      ],
+      "slots": []
+    },
+    {
+      "name": "statistics",
+      "samples": [
+        "statistics about {userTeam} team",
+        "how is {userTeam}",
+        "statistics",
+        "give me statistics"
+      ],
+      "slots": [
+        {
+          "name": "userTeam",
+          "type": "TEAM_TYPE",
+          "samples": []
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "LIST_OF_REGIONS",
+      "values": [
+        {
+          "id": "na1",
+          "name": {
+            "value": "North America",
+            "synonyms": [
+              "NA"
+            ]
+          }
+        },
+        {
+          "id": "euw1",
+          "name": {
+            "value": "Europe West",
+            "synonyms": [
+              "EW"
+            ]
+          }
+        },
+        {
+          "id": "eun1",
+          "name": {
+            "value": "Europe Nordic and East",
+            "synonyms": [
+              "ENE"
+            ]
+          }
+        },
+        {
+          "id": "eue1",
+          "name": {
+            "value": "Europe East",
+            "synonyms": [
+              "EE"
+            ]
+          }
+        },
+        {
+          "id": "br1",
+          "name": {
+            "value": "Brazil",
+            "synonyms": []
+          }
+        },
+        {
+          "id": "tr",
+          "name": {
+            "value": "Turkey",
+            "synonyms": []
+          }
+        },
+        {
+          "id": "ru",
+          "name": {
+            "value": "Russia",
+            "synonyms": []
+          }
+        },
+        {
+          "id": "la1",
+          "name": {
+            "value": "Latin America North",
+            "synonyms": [
+              "LAN"
+            ]
+          }
+        },
+        {
+          "id": "la2",
+          "name": {
+            "value": "Latin America South",
+            "synonyms": [
+              "LAS"
+            ]
+          }
+        },
+        {
+          "id": "oc1",
+          "name": {
+            "value": "Oceania",
+            "synonyms": []
+          }
+        },
+        {
+          "id": "jp1",
+          "name": {
+            "value": "Japan",
+            "synonyms": []
+          }
+        },
+        {
+          "id": "kr",
+          "name": {
+            "value": "Korea",
+            "synonyms": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "TEAM_TYPE",
+      "values": [
+        {
+          "id": null,
+          "name": {
+            "value": "enemy",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "allied",
+            "synonyms": []
+          }
+        },
+        {
+          "id": null,
+          "name": {
+            "value": "all",
+            "synonyms": []
+          }
+        }
+      ]
+    }
+  ]
+}
