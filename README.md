@@ -7,7 +7,7 @@ _./Sources/main.swift_
 **Description**: This project provides a demonstration of how to develop for the Amazon Echo. With this skill the user is capable to ask Alexa for the statistics of the enemy team in League of Legends the video game, and know what they should care about.
 
 ##### Prerequisites
-- Apple computer
+- macOS Sierra
 - XCode 8.3.3
 - Swift 3.1
 - [Ngrok](https://ngrok.com/)
@@ -77,9 +77,9 @@ Also, you can generate the xcode project using.
 Back in the Alexa portal, we have the _Test_ tab under your skill configuration. Go there.
 In the Service simulatour you can try different stuff to test your skill.
 Some examples are:
-`open league asistant`
-`log in with ID two zero eight one seven three eight and region Latin America North`
-`give me statistics`
+- `open league asistant`
+- `log in with ID two zero eight one seven three eight and region Latin America North`
+- `give me statistics`
 
 
 🍻
