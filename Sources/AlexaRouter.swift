@@ -70,7 +70,5 @@ extension AlexaRouter {
             alexa.exit(speech: "There was a internal problem", handler: next)
             break;
         }
-        
-//        alexa.say(speech: "Welcome to League assistant. What can I do for you?", reprompt: "I didn't hear you.", handler: next)
     }
 }
