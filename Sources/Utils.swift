@@ -75,17 +75,16 @@ func whatChampion(_ match: Match, _ summonerId: Int) -> String {
 func regionCode(_ region: String) -> String? {
     switch region.lowercased() {
         case "north america":           return "na1"
+        case "latin america north":     return "la1"
+        case "latin america south":     return "la2"
         case "europe west":             return "euw1"
+        case "europe east":             return "eue1"
         case "korea":                   return "kr"
         case "japan":                   return "jp1"
         case "oceania":                 return "oc1"
-        case "latin america south":     return "la2"
-        case "latin america north":     return "la1"
         case "russia":                  return "ru"
-        case "turkey":                  return "tr"
+        case "turkey":                  return "tr1"
         case "brazil":                  return "br1"
-        case "europe east":             return "eue1"
-        case "europe nordic and east":  return "eun1"
         default:                        return nil
     
     }

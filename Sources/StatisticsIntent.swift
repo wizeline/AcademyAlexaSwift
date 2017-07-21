@@ -49,7 +49,6 @@ final class StatisticsIntent: Intent {
 
 
     func performRequestActiveGames(_ alexa: AlexaRequest, _ user: User, completionHandler: @escaping (String, String?, Bool) -> Void) {
-        //TODO remove hard code region and ID. retrieve the current user id instead
         if let url = url(forScheme: API.scheme, endpoint: API.endpoint, basePath: API.currentGameBasePath, region: user.platformID, id: "\(user.summonerID)", apiKey: API.apiKey) {
             
             let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 30)

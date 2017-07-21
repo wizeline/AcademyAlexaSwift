@@ -26,6 +26,5 @@ extension AmazonHelpIntent {
     
     enum Reprompt: String {
         case pardon = "I couldn't hear you clearly"
-        case so = "So"
     }
 }
